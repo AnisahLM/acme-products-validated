@@ -9,6 +9,13 @@ app.use('/dist', express.static('dist'));
 app.get('/', (req, res)=> res.sendFile(path.join(__dirname, 'index.html')));
 
 app.get('/api/products', (req, res, next)=> {
+  // in an async function
+  // try{
+  //   res.send(await Product.findAll())
+  // }
+  // catch(err){
+  //   next(err);
+  // }
   Product.findAll()
     .then( products => res.send(products))
     .catch(next);
@@ -19,6 +26,11 @@ app.put('/api/products/:id', (req, res, next)=> {
     .then( product => product.update(req.body))
     .then( product => res.send(product))
     .catch(next);
+});
+
+app.use((err, req, res, next) => {
+  console.log(err);
+  res.status(500).send(err);
 });
 
 const start = async()=> {

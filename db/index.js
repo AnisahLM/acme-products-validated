@@ -14,16 +14,18 @@ const Product = conn.define('product', {
     allowNull: false,
     unique: true,
     validate: {
-      notEmpty: true
+      notEmpty: true,
+      len: [1, 21]
     }
   },
   price: {
     type: DECIMAL,
     allowNull: false,
     validate: {
+      isDecimal: true,
       isPositive: (value)=> {
         if(value <= 0){
-          throw 'price must be positive'
+          throw 'price must be positive';
         }
       }
     }
@@ -32,6 +34,7 @@ const Product = conn.define('product', {
     type: INTEGER,
     allowNull: false,
     validate: {
+      isInt: true,
       min: 0
     }
   }
